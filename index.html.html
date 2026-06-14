@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body,html{font-family:'Jost', sans-serif;background-color:#f8f9fa;color:#241E46;padding:20px;overflow-x:hidden}
+
+#app-container{max-width:700px;margin:40px auto;background:#fff;padding:40px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.05)}
+
+header{text-align:center;margin-bottom:30px;border-bottom:2px solid #EAE8F7;padding-bottom:20px}
+.main-title{font-size:26px;font-weight:700;color:#241E46;margin-bottom:8px}
+.subtitle{font-size:14px;color:#7C6EB0;font-weight:500}
+
+.form-group{margin-bottom:24px;display:flex;flex-direction:column;gap:8px}
+label{font-size:14px;font-weight:700;color:#241E46;text-transform:uppercase;letter-spacing:0.03em}
+
+#voter-name{font-family:'Jost', sans-serif;font-size:15px;padding:12px;border-radius:8px;border:2px solid #7C6EB044;background:#fff;color:#241E46;font-weight:500;transition:border-color 0.2s}
+#voter-name:focus{outline:none;border-color:#241E46}
+
+.suggestion-box{font-family:'Jost', sans-serif;font-size:14px;padding:12px;border-radius:8px;border:2px solid #3A8FA344;background:#fafafa;color:#241E46;width:100%;min-height:70px;resize:vertical;transition:all 0.2s}
+.suggestion-box:focus{outline:none;border-color:#3A8FA3;background:#fff}
+
+.input-container{display:flex;flex-direction:column;gap:15px;background:#F3F2F9;padding:20px;border-radius:12px;border:1px solid #D8D5F0;margin-bottom:25px}
+.input-num{font-size:12px;font-weight:700;color:#7C6EB0;margin-bottom:4px}
+
+#submit-btn{font-family:'Jost', sans-serif;font-size:15px;font-weight:700;padding:14px;border-radius:8px;background:#241E46;color:#fff;border:none;cursor:pointer;width:100%;transition:background 0.2s;box-shadow:0 4px 12px rgba(36,30,70,0.15)}
+#submit-btn:disabled{opacity:0.3;cursor:not-allowed;box-shadow:none}
+#submit-btn:hover:not(:disabled){background:#3b3275}
+
+#msg{text-align:center;font-size:14px;color:#3A8FA3;font-weight:700;margin-top:15px;height:20px}
+</style>
+<title>Team Retrospective - Suggestion Portal</title>
+</head>
+<body>
+
+<div id="app-container">
+  <header>
+    <div class="main-title">Team Retro Suggestion Box</div>
+    <div class="subtitle">Submit your top 3 ideas or improvements directly to our tracking spreadsheet.</div>
+  </header>
+
+  <div class="form-group">
+    <label for="voter-name">Your Full Name</label>
+    <input id="voter-name" type="text" placeholder="Enter your name to begin..." oninput="validateForm()">
+  </div>
+
+  <div class="input-container">
+    <label style="color:#7C6EB0;">Your Suggestions</label>
+    
+    <div>
+      <div class="input-num">💡 Suggestion #1</div>
+      <textarea class="suggestion-box" placeholder="Type your first recommendation here..." oninput="validateForm()"></textarea>
+    </div>
+    
+    <div>
+      <div class="input-num">💡 Suggestion #2</div>
+      <textarea class="suggestion-box" placeholder="Type your second recommendation here (Optional)..." oninput="validateForm()"></textarea>
+    </div>
+    
+    <div>
+      <div class="input-num">💡 Suggestion #3</div>
+      <textarea class="suggestion-box" placeholder="Type your third recommendation here (Optional)..." oninput="validateForm()"></textarea>
+    </div>
+  </div>
+
+  <button id="submit-btn" disabled onclick="submitAllSuggestions()">Submit Suggestions</button>
+  <div id="msg"></div>
+</div>
+
+<script>
+// Connected directly to your active Google Apps Script deployment URL
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbw5d5daa_hAZIAzhf6jojnjX20_BOBrh9xDJ7KTvpkDnq7M0x2acMG1MGLA5R8WHQ1Gfg/exec";
+
+function validateForm() {
+  const name = document.getElementById('voter-name').value.trim();
+  const textBoxes = document.querySelectorAll('.suggestion-box');
+  
+  let hasAtLeastOneSuggestion = false;
+  textBoxes.forEach(box => {
+    if (box.value.trim().length > 0) {
+      hasAtLeastOneSuggestion = true;
+    }
+  });
+
+  // Enable button only if name is filled out and they typed at least 1 item
+  document.getElementById('submit-btn').disabled = !(name && hasAtLeastOneSuggestion);
+}
+
+function showFeedback(text) {
+  const msg = document.getElementById('msg');
+  msg.textContent = text;
+  setTimeout(() => msg.textContent = '', 4500);
+}
+
+function submitAllSuggestions() {
+  const name = document.getElementById('voter-name').value.trim();
+  if(!name) return;
+  
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.disabled = true;
+  showFeedback('📡 Sending suggestions directly to Google Sheets...');
+
+  let customEntries = [];
+  const textBoxes = document.querySelectorAll('.suggestion-box');
+  
+  textBoxes.forEach(box => {
+    const val = box.value.trim();
+    if(val.length > 0) {
+      customEntries.push("[Custom Suggestion] " + val);
+    }
+  });
+
+  const payload = {
+    name: name,
+    votes: customEntries
+  };
+
+  fetch(GOOGLE_SHEET_URL, {
+    method: "POST",
+    mode: "no-cors", 
+    cache: "no-cache",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    // Reset all form values cleanly on successful sendoff
+    document.getElementById('voter-name').value = '';
+    textBoxes.forEach(box => box.value = '');
+    
+    showFeedback('✅ Success! Your recommendations have been pushed directly to your Google Sheet.');
+    validateForm();
+  })
+  .catch(error => {
+    console.error("Transmission error:", error);
+    showFeedback('❌ Error saving data. Please check your network connection.');
+    submitBtn.disabled = false;
+  });
+}
+</script>
+
+</body>
+</html>
