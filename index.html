@@ -20,11 +20,18 @@ label{font-size:14px;font-weight:700;color:#241E46;text-transform:uppercase;lett
 #voter-name{font-family:'Jost', sans-serif;font-size:15px;padding:12px;border-radius:8px;border:2px solid #7C6EB044;background:#fff;color:#241E46;font-weight:500;transition:border-color 0.2s}
 #voter-name:focus{outline:none;border-color:#241E46}
 
-.suggestion-box{font-family:'Jost', sans-serif;font-size:14px;padding:12px;border-radius:8px;border:2px solid #3A8FA344;background:#fafafa;color:#241E46;width:100%;min-height:70px;resize:vertical;transition:all 0.2s}
-.suggestion-box:focus{outline:none;border-color:#3A8FA3;background:#fff}
+.input-container{display:flex;flex-direction:column;gap:25px;background:#F3F2F9;padding:20px;border-radius:12px;border:1px solid #D8D5F0;margin-bottom:25px}
+.input-num{font-size:14px;font-weight:700;color:#7C6EB0;margin-bottom:10px;border-bottom:1px dashed #D8D5F0;padding-bottom:5px}
 
-.input-container{display:flex;flex-direction:column;gap:15px;background:#F3F2F9;padding:20px;border-radius:12px;border:1px solid #D8D5F0;margin-bottom:25px}
-.input-num{font-size:12px;font-weight:700;color:#7C6EB0;margin-bottom:4px}
+.suggestion-group{display:flex;flex-direction:column;gap:12px}
+.field-group{display:flex;flex-direction:column;gap:4px}
+.sub-label{font-size:12px;font-weight:600;color:#241E46;text-transform:none;letter-spacing:normal}
+
+.sub-input{font-family:'Jost', sans-serif;font-size:14px;padding:10px;border-radius:6px;border:2px solid #3A8FA344;background:#fafafa;color:#241E46;width:100%;transition:all 0.2s}
+.sub-input:focus{outline:none;border-color:#3A8FA3;background:#fff}
+
+.suggestion-box{font-family:'Jost', sans-serif;font-size:14px;padding:12px;border-radius:8px;border:2px solid #3A8FA344;background:#fafafa;color:#241E46;width:100%;min-height:60px;resize:vertical;transition:all 0.2s}
+.suggestion-box:focus{outline:none;border-color:#3A8FA3;background:#fff}
 
 #submit-btn{font-family:'Jost', sans-serif;font-size:15px;font-weight:700;padding:14px;border-radius:8px;background:#241E46;color:#fff;border:none;cursor:pointer;width:100%;transition:background 0.2s;box-shadow:0 4px 12px rgba(36,30,70,0.15)}
 #submit-btn:disabled{opacity:0.3;cursor:not-allowed;box-shadow:none}
@@ -39,7 +46,7 @@ label{font-size:14px;font-weight:700;color:#241E46;text-transform:uppercase;lett
 <div id="app-container">
   <header>
     <div class="main-title">Team Retro Suggestion Box</div>
-    <div class="subtitle">Submit your top 3 ideas or improvements directly to our tracking spreadsheet.</div>
+    <div class="subtitle">Submit your ideas or improvements directly to our tracking spreadsheet (Fill out at least one).</div>
   </header>
 
   <div class="form-group">
@@ -50,20 +57,69 @@ label{font-size:14px;font-weight:700;color:#241E46;text-transform:uppercase;lett
   <div class="input-container">
     <label style="color:#7C6EB0;">Your Suggestions</label>
     
-    <div>
+    <!-- Suggestion #1 -->
+    <div class="suggestion-group">
       <div class="input-num">💡 Suggestion #1</div>
-      <textarea class="suggestion-box" placeholder="Type your first recommendation here..." oninput="validateForm()"></textarea>
+      <div class="field-group">
+        <span class="sub-label">Title</span>
+        <input type="text" class="sub-input summ-input togg-field sugg-title" placeholder="Brief title..." oninput="validateForm()">
+      </div>
+      <div class="field-group">
+        <span class="sub-label">Description</span>
+        <textarea class="suggestion-box togg-field sugg-desc" placeholder="Detailed description..." oninput="validateForm()"></textarea>
+      </div>
+      <div class="field-group">
+        <span class="sub-label">What can you do to implement this suggestion?</span>
+        <textarea class="suggestion-box togg-field sugg-impl" placeholder="Steps or your personal contribution..." oninput="validateForm()"></textarea>
+      </div>
+      <div class="field-group">
+        <span class="sub-label">What problem does this suggestion solve?</span>
+        <textarea class="suggestion-box togg-field sugg-prob" placeholder="The underlying issue being fixed..." oninput="validateForm()"></textarea>
+      </div>
     </div>
-    
-    <div>
-      <div class="input-num">💡 Suggestion #2</div>
-      <textarea class="suggestion-box" placeholder="Type your second recommendation here (Optional)..." oninput="validateForm()"></textarea>
+
+    <!-- Suggestion #2 -->
+    <div class="suggestion-group">
+      <div class="input-num">💡 Suggestion #2 (Optional)</div>
+      <div class="field-group">
+        <span class="sub-label">Title</span>
+        <input type="text" class="sub-input summ-input togg-field sugg-title" placeholder="Brief title..." oninput="validateForm()">
+      </div>
+      <div class="field-group">
+        <span class="sub-label">Description</span>
+        <textarea class="suggestion-box togg-field sugg-desc" placeholder="Detailed description..." oninput="validateForm()"></textarea>
+      </div>
+      <div class="field-group">
+        <span class="sub-label">What can you do to implement this suggestion?</span>
+        <textarea class="suggestion-box togg-field sugg-impl" placeholder="Steps or your personal contribution..." oninput="validateForm()"></textarea>
+      </div>
+      <div class="field-group">
+        <span class="sub-label">What problem does this suggestion solve?</span>
+        <textarea class="suggestion-box togg-field sugg-prob" placeholder="The underlying issue being fixed..." oninput="validateForm()"></textarea>
+      </div>
     </div>
-    
-    <div>
-      <div class="input-num">💡 Suggestion #3</div>
-      <textarea class="suggestion-box" placeholder="Type your third recommendation here (Optional)..." oninput="validateForm()"></textarea>
+
+    <!-- Suggestion #3 -->
+    <div class="suggestion-group">
+      <div class="input-num">💡 Suggestion #3 (Optional)</div>
+      <div class="field-group">
+        <span class="sub-label">Title</span>
+        <input type="text" class="sub-input summ-input togg-field sugg-title" placeholder="Brief title..." oninput="validateForm()">
+      </div>
+      <div class="field-group">
+        <span class="sub-label">Description</span>
+        <textarea class="suggestion-box togg-field sugg-desc" placeholder="Detailed description..." oninput="validateForm()"></textarea>
+      </div>
+      <div class="field-group">
+        <span class="sub-label">What can you do to implement this suggestion?</span>
+        <textarea class="suggestion-box togg-field sugg-impl" placeholder="Steps or your personal contribution..." oninput="validateForm()"></textarea>
+      </div>
+      <div class="field-group">
+        <span class="sub-label">What problem does this suggestion solve?</span>
+        <textarea class="suggestion-box togg-field sugg-prob" placeholder="The underlying issue being fixed..." oninput="validateForm()"></textarea>
+      </div>
     </div>
+
   </div>
 
   <button id="submit-btn" disabled onclick="submitAllSuggestions()">Submit Suggestions</button>
@@ -71,22 +127,32 @@ label{font-size:14px;font-weight:700;color:#241E46;text-transform:uppercase;lett
 </div>
 
 <script>
-// Connected directly to your active Google Apps Script deployment URL
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbw5d5daa_hAZIAzhf6jojnjX20_BOBrh9xDJ7KTvpkDnq7M0x2acMG1MGLA5R8WHQ1Gfg/exec";
+// Assigned your active Web App URL
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbz3fnChZbcfVBVruyFs3EuqbndjbkY_9MiQeDwi2iGcyYKkZd9ideP801my5i0sdy75-w/exec";
 
 function validateForm() {
   const name = document.getElementById('voter-name').value.trim();
-  const textBoxes = document.querySelectorAll('.suggestion-box');
+  const groups = document.querySelectorAll('.suggestion-group');
   
-  let hasAtLeastOneSuggestion = false;
-  textBoxes.forEach(box => {
-    if (box.value.trim().length > 0) {
-      hasAtLeastOneSuggestion = true;
+  let atLeastOneComplete = false;
+  let formHasErrors = false;
+
+  groups.forEach(group => {
+    const title = group.querySelector('.sugg-title').value.trim();
+    const desc = group.querySelector('.sugg-desc').value.trim();
+    const impl = group.querySelector('.sugg-impl').value.trim();
+    const prob = group.querySelector('.sugg-prob').value.trim();
+
+    const fieldsFilledCount = [title, desc, impl, prob].filter(val => val.length > 0).length;
+
+    if (fieldsFilledCount === 4) {
+      atLeastOneComplete = true;
+    } else if (fieldsFilledCount > 0 && fieldsFilledCount < 4) {
+      formHasErrors = true;
     }
   });
 
-  // Enable button only if name is filled out and they typed at least 1 item
-  document.getElementById('submit-btn').disabled = !(name && hasAtLeastOneSuggestion);
+  document.getElementById('submit-btn').disabled = !(name && atLeastOneComplete && !formHasErrors);
 }
 
 function showFeedback(text) {
@@ -103,19 +169,28 @@ function submitAllSuggestions() {
   submitBtn.disabled = true;
   showFeedback('📡 Sending suggestions directly to Google Sheets...');
 
-  let customEntries = [];
-  const textBoxes = document.querySelectorAll('.suggestion-box');
+  let structuredVotes = [];
+  const groups = document.querySelectorAll('.suggestion-group');
   
-  textBoxes.forEach(box => {
-    const val = box.value.trim();
-    if(val.length > 0) {
-      customEntries.push("[Custom Suggestion] " + val);
+  groups.forEach((group) => {
+    const title = group.querySelector('.sugg-title').value.trim();
+    const desc = group.querySelector('.sugg-desc').value.trim();
+    const impl = group.querySelector('.sugg-impl').value.trim();
+    const prob = group.querySelector('.sugg-prob').value.trim();
+    
+    if (title && desc && impl && prob) {
+      structuredVotes.push({
+        title: title,
+        description: desc,
+        implementation: impl,
+        problem: prob
+      });
     }
   });
 
   const payload = {
     name: name,
-    votes: customEntries
+    votes: structuredVotes
   };
 
   fetch(GOOGLE_SHEET_URL, {
@@ -126,9 +201,8 @@ function submitAllSuggestions() {
     body: JSON.stringify(payload)
   })
   .then(() => {
-    // Reset all form values cleanly on successful sendoff
     document.getElementById('voter-name').value = '';
-    textBoxes.forEach(box => box.value = '');
+    document.querySelectorAll('.togg-field').forEach(input => input.value = '');
     
     showFeedback('✅ Success! Your recommendations have been pushed directly to your Google Sheet.');
     validateForm();
